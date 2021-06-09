@@ -1,0 +1,43 @@
+@page "/fetchdatausuario"
+@using BlazorApp1.Shared
+@inject HttpClient Http
+
+<h1>Lista de usuarios</h1>
+
+
+@if (usuarios == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+			<tr>
+				<td>UsuID</td>
+				<td>UsuNombre</td>
+				<td>UsuPass</td>
+
+			</tr>
+        </thead>
+        <tbody>
+            @foreach (var us in usuarios)
+            {
+                <tr>
+                    <td>@us.UsuID</td>
+					<td>@us.UsuNombre</td>
+					<td>@us.UsuPass</td>                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Usuario[] usuarios;
+
+    protected override async Task OnInitializedAsync()
+    {
+        usuarios = await Http.GetFromJsonAsync<Usuario[]>("Usuario");
+    }
+}

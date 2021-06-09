@@ -1,0 +1,53 @@
+@page "/fetchdatapedido"
+@using BlazorApp1.Shared
+@inject HttpClient Http
+
+<h1>Lista de pedidos</h1>
+
+
+@if (pedidos == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+			<tr>
+				<td>PedID</td>
+				<td>PedCant</td>
+				<td>PedIVA</td>
+				<td>PedProd</td>
+				<td>PedSubTot</td>
+				<td>PedUsu</td>
+				<td>PedVrUnit</td>
+
+			</tr>
+        </thead>
+        <tbody>
+            @foreach (var pe in pedidos)
+            {
+			<tr>
+				<td>@pe.PedID</td>
+				<td>@pe.PedCant</td>
+				<td>@pe.PedIVA</td>
+				<td>@pe.PedProd</td>
+				<td>@pe.PedSubTot</td>
+				<td>@pe.PedUsu</td>
+				<td>@pe.PedVrUnit</td>
+			
+
+			</tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Pedido[] pedidos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        pedidos = await Http.GetFromJsonAsync<Pedido[]>("Pedido");
+    }
+}

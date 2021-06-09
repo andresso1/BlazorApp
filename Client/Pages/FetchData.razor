@@ -1,0 +1,43 @@
+@page "/fetchdata"
+@using BlazorApp1.Shared
+@inject HttpClient Http
+
+<h1>Lista de productos</h1>
+
+
+@if (producto == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Valor</th>
+                <th>Descripcion</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pro in producto)
+            {
+                <tr>
+                    <td>@pro.ProID</td>
+					<td>@pro.ProValor</td>
+					<td>@pro.ProDesc</td>                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Producto[] producto;
+
+    protected override async Task OnInitializedAsync()
+    {
+        producto = await Http.GetFromJsonAsync<Producto[]>("Producto");
+    }
+}
